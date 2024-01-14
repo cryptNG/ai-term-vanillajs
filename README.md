@@ -1,6 +1,3 @@
-Certainly! Here's the `README.md` formatted specifically for GitHub Markdown, which includes some additional GitHub-specific formatting like badges and a table of contents.
-
-```markdown
 # <ai-term> VanillaJS Web Components
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
