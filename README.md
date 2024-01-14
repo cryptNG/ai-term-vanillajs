@@ -61,9 +61,3 @@ Here are some examples of how to use <ai-term> in your project:
 ## Support
 
 For support, issues, or contributions, please visit the [GitHub repository](https://github.com/cryptNG/ai-term-vanillajs).
-
-```
-
-This README is structured to be clear and user-friendly, with badges for quick information at a glance and a table of contents for easy navigation. Remember to update
-
-the links and badges as per your project's status and hosting details.
