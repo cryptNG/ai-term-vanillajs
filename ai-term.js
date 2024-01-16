@@ -13,7 +13,7 @@ tpl1.innerHTML=`<div style="display: inline-flex;">
 
 const tpl2 = document.createElement('template');
 tpl2.id='ai-term-chat';
-tpl2.innerHTML=`<div id="ai-term-chat-window">
+tpl2.innerHTML=`<div id="ai-term-chat-window" part="ai-term-chat">
 <div class="title"><svg
 width="120"
 viewBox="0 0 76.231392 11.96944"
