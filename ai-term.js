@@ -3,7 +3,7 @@
 const tpl1 = document.createElement('template');
 tpl1.id='ai-term';
 tpl1.innerHTML=`<div style="display: inline-flex;">
-<span class="ai-term">
+<span class="ai-term" part="ai-term-tag">
   <slot>
   </slot>
   
@@ -56,13 +56,13 @@ xmlns:svg="http://www.w3.org/2000/svg">
 </svg>
 </div>
 <form>
-<label for="ai-term-prompt">Ask Prompt</label>
-<div class="prompt-ask">
-  <input id="ai-term-prompt"/>
-  <button id="ai-term-ask">Ask AI</button>
-</div>
-<label for="ai-term-bot">Ai Term Answer</label>
+
+<label for="ai-term-bot">Ai Term Chat</label>
 <div class="textarea" id="ai-term-bot"></div>
+<div class="prompt-ask">
+  <input id="ai-term-prompt" placeholder="Message to ask AI-TERM"/>
+  <button id="ai-term-ask">Ask</button>
+</div>
 </form>
 </div>`;
 
@@ -95,8 +95,8 @@ class AiTerm extends HTMLElement {
         
 
         shadowRoot.querySelector('.ai-term').addEventListener('click', () =>{
-          document.querySelector('body').aiTermInputRef.value=this.prompt;
-          document.querySelector('body').aiTermChatWindowRef.classList.toggle("active");
+          document.querySelector('body').aiTermInputRef.value=(this.prompt||null)===null?this.textContent:this.prompt;
+          document.querySelector('body').aiTermChatWindowRef.classList.add("active");
           document.querySelector('body').aiTermButtonRef.click();
 
         });
@@ -156,7 +156,6 @@ class AiTermChat extends HTMLElement {
 
         #ai-term-chat-window .title {
           width: 100%;
-          height: 2rem;
           border-radius: 20px 20px 0 0;
           background-color: black;
           padding: 14px 0 14px 30px;
@@ -182,21 +181,25 @@ class AiTermChat extends HTMLElement {
         #ai-term-chat-window form label{
           line-height:1.5rem;
           color: cornflowerblue;
+          border-bottom: 1px solid cornflowerblue;
         }
 
         #ai-term-chat-window form .prompt-ask{
           display: flex;
           flex-direction: row;
           flex-wrap: nowrap;
-          align-items: left;
           margin-bottom:20px;
+          position: relative;
         }
 
         #ai-term-chat-window form input {
-          width: 290px;
-          line-height:1.1em;
-          border-radius:10px;
+          width: 100%;
+          line-height: 1.3rem;
+          border-radius: 10px;
           border: 1px solid cornflowerblue;
+          height: 2.5rem;
+          padding-left: 10px;
+          padding-right: 50px;
         }
 
         #ai-term-chat-window form input:focus {
@@ -204,14 +207,15 @@ class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window form button {
-          width: calc(100% - 300px);
           line-height:2em;
-          margin-left:10px;
-          border-radius:10px;
+          border-radius: 10px;
           background-color: #c0d7ff;
           border: 2px solid cornflowerblue;
           box-shadow: 5px 5px 8px #36568f59;
-          cursor:pointer;
+          cursor: pointer;
+          position: absolute;
+          right: 6px;
+          top: 5px;
         }
 
         #ai-term-chat-window form button:hover {
@@ -222,19 +226,23 @@ class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window form .textarea {
-          width: 100%;
           height: 200px;
           line-height:1.5em;
           margin-bottom:20px;
           border-radius:10px;
-          border: 1px solid cornflowerblue;
+          border: 0px solid cornflowerblue;
           color: black;
           padding: 5px;
-          overflow: scroll;
+          overflow-x: hidden;
+          overflow-y: scroll;
         }
 
         #ai-term-chat-window form .textarea>div{
           width:100%;
+        }
+
+        #ai-term-chat-window form .textarea>div i{
+          color:cornflowerblue;
         }
         `;
 
@@ -259,7 +267,7 @@ class AiTermChat extends HTMLElement {
 
         let div = document.createElement('div');
 
-        div.textContent="Me: " + input.value;
+        div.innerHTML=`<b>Me</b>: ${input.value}`;
         
 
         textarea.appendChild(div);
@@ -268,7 +276,8 @@ class AiTermChat extends HTMLElement {
 
         textarea.appendChild(div);
 
-        div.textContent='... AI is thinking ...';
+        div.innerHTML=`<i>... AI is thinking ...</i>`;
+        textarea.scrollTop = textarea.scrollHeight;
 
         try{
           const response = await fetch('https://obscuranet.com/api/request', {
@@ -288,11 +297,14 @@ class AiTermChat extends HTMLElement {
               refresh: false
             }) 
           });
-          div.textContent='AI: '+(await response.json()).response;
+          const resp = (await response.json()).response;
+          div.innerHTML=`<b>AI</b>: ${resp}`;
+          
         }catch(e){
           div.textContent='AI is overworked :-(';
         }
         input.value='';
+        textarea.scrollTop = textarea.scrollHeight;
       });
     }
 
