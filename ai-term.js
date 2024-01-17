@@ -138,7 +138,7 @@ class AiTermChat extends HTMLElement {
           height: 400px;
           width: 400px;
           background: white;
-          position: absolute;
+          position: fixed;
           bottom: -410px;
           right: 0vw;
           display:flex;
