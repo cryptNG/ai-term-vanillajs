@@ -54,6 +54,13 @@ xmlns:svg="http://www.w3.org/2000/svg">
  </g>
 </g>
 </svg>
+<div class="window-buttons"><span class="minify"><svg width="16px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect style="fill:transparent;stroke:white;stroke-width:10px;" x="4" y="88" width="92" height="8" rx="5 " />
+</svg></span><span class="midify"><svg width="16px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect style="fill:transparent;stroke:white;stroke-width:10px;" x="4" y="54" width="92" height="42" rx="5 " />
+</svg></span><span class="maxify"><svg width="16px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect style="fill:transparent;stroke:white;stroke-width:10px;" x="4" y="4" width="92" height="92" rx="5  " />
+</svg></span><span class="close">X</span></div>
 </div>
 <form>
 
@@ -115,6 +122,22 @@ class AiTerm extends HTMLElement {
 customElements.define('ai-term', AiTerm);
 
 class AiTermChat extends HTMLElement {
+    minify(event){
+      event.target.closest('#ai-term-chat-window').classList.add('min-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('max-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('mid-size');
+    }
+    midify(event){
+      event.target.closest('#ai-term-chat-window').classList.add('mid-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('max-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('min-size');
+    }
+
+    maxify(event){
+      event.target.closest('#ai-term-chat-window').classList.add('max-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('mid-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('min-size');
+    }
     constructor() {
         super();
 
@@ -154,6 +177,18 @@ class AiTermChat extends HTMLElement {
           color:black;
         }
 
+        #ai-term-chat-window.mid-size{
+          height: 400px;
+        }
+
+        #ai-term-chat-window.min-size{
+          height: 50px;
+        }
+
+        #ai-term-chat-window.max-size{
+          height: 100vh;
+        }
+
         #ai-term-chat-window .title {
           width: 100%;
           border-radius: 20px 20px 0 0;
@@ -162,6 +197,10 @@ class AiTermChat extends HTMLElement {
           color: black;
           font-size: large;
           box-shadow: 5px 5px 10px #0000005c;
+        }
+
+        #ai-term-chat-window .title .window-buttons .span{
+          cursor:pointer;
         }
 
         #ai-term-chat-window.active {
@@ -253,6 +292,10 @@ class AiTermChat extends HTMLElement {
 
         const input = shadowRoot.querySelector('input');
         const textarea = shadowRoot.querySelector('.textarea');
+
+        shadowRoot.querySelector('.window-buttons .minify').addEventListener('click', this.minify);
+        shadowRoot.querySelector('.window-buttons .midify').addEventListener('click', this.midify);
+        shadowRoot.querySelector('.window-buttons .maxify').addEventListener('click', this.maxify);
 
         document.querySelector('body').aiTermInputRef = shadowRoot.querySelector('input');
         document.querySelector('body').aiTermChatWindowRef = shadowRoot.querySelector('#ai-term-chat-window');
