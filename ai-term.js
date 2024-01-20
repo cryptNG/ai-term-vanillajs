@@ -206,13 +206,19 @@ class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window .title {
-          width: 100%;
+          width: calc(100% - 50px);
           border-radius: 20px 20px 0 0;
           background-color: black;
-          padding: 14px 0 14px 30px;
+          padding: 14px 20px 14px 30px;
           color: black;
           font-size: large;
           box-shadow: 5px 5px 10px #0000005c;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          align-items: center;
+          color: white;
         }
 
         #ai-term-chat-window .title .window-buttons .span{
