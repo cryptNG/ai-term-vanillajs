@@ -152,6 +152,9 @@ class AiTermChat extends HTMLElement {
 
     close(event){
       event.target.closest('#ai-term-chat-window').classList.remove('active');
+      event.target.closest('#ai-term-chat-window').classList.remove('max-size');
+      event.target.closest('#ai-term-chat-window').classList.remove('min-size');
+      event.target.closest('#ai-term-chat-window').classList.add('mid-size');
     }
     constructor() {
         super();
@@ -202,7 +205,7 @@ class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window.max-size{
-          height: 100vh;
+          height: calc(100dvh - 95px);
         }
 
         #ai-term-chat-window .title {
