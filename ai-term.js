@@ -55,13 +55,24 @@ xmlns:svg="http://www.w3.org/2000/svg">
 </g>
 </svg>
 <div class="window-buttons"><span class="minify"><svg width="16px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-<rect style="fill:transparent;stroke:white;stroke-width:10px;" x="4" y="88" width="92" height="8" rx="5 " />
+<rect style="fill:transparent;stroke:white;stroke-width:12px;" x="4" y="88" width="92" height="8" rx="5 " />
 </svg></span><span class="midify"><svg width="16px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-<rect style="fill:transparent;stroke:white;stroke-width:10px;" x="4" y="54" width="92" height="42" rx="5 " />
+<rect style="fill:transparent;stroke:white;stroke-width:12px;" x="4" y="54" width="92" height="42" rx="5 " />
 </svg></span><span class="maxify"><svg width="16px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-<rect style="fill:transparent;stroke:white;stroke-width:10px;" x="4" y="4" width="92" height="92" rx="5  " />
+<rect style="fill:transparent;stroke:white;stroke-width:12px;" x="4" y="4" width="92" height="92" rx="5  " />
 </svg></span><span class="close">X</span></div>
 </div>
+<style>
+  div.window-buttons>span{
+    display:inline-block;
+    width:20px;
+    margin-left:5px;
+    cursor:pointer;
+  }
+  
+
+  
+</style>
 <form>
 
 <label for="ai-term-bot">Ai Term Chat</label>
@@ -138,6 +149,10 @@ class AiTermChat extends HTMLElement {
       event.target.closest('#ai-term-chat-window').classList.remove('mid-size');
       event.target.closest('#ai-term-chat-window').classList.remove('min-size');
     }
+
+    close(event){
+      event.target.closest('#ai-term-chat-window').classList.remove('active');
+    }
     constructor() {
         super();
 
@@ -158,6 +173,7 @@ class AiTermChat extends HTMLElement {
         const style = document.createElement('style');
         style.textContent = `
         #ai-term-chat-window {
+          z-index: 1;
           height: 400px;
           width: 400px;
           background: white;
@@ -296,6 +312,7 @@ class AiTermChat extends HTMLElement {
         shadowRoot.querySelector('.window-buttons .minify').addEventListener('click', this.minify);
         shadowRoot.querySelector('.window-buttons .midify').addEventListener('click', this.midify);
         shadowRoot.querySelector('.window-buttons .maxify').addEventListener('click', this.maxify);
+        shadowRoot.querySelector('.window-buttons .close').addEventListener('click', this.close);
 
         document.querySelector('body').aiTermInputRef = shadowRoot.querySelector('input');
         document.querySelector('body').aiTermChatWindowRef = shadowRoot.querySelector('#ai-term-chat-window');
