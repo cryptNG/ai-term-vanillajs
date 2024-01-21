@@ -301,6 +301,11 @@ class AiTermChat extends HTMLElement {
           overflow-y: scroll;
         }
 
+        #ai-term-chat-window.max-size form .textarea{
+          height:calc(80dvh - 2.5rem - 1dvh);
+        }
+
+
         #ai-term-chat-window form .textarea>div{
           width:100%;
         }
