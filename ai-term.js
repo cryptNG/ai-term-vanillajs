@@ -290,7 +290,7 @@ class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window form .textarea {
-          height: 200px;
+          height: 240px;
           line-height:1.5em;
           margin-bottom:20px;
           border-radius:10px;
@@ -302,7 +302,7 @@ class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window.max-size form .textarea{
-          height:calc(80dvh - 2.5rem - 1dvh);
+          height:calc(80dvh - 2.5rem - 5dvh);
         }
 
 
