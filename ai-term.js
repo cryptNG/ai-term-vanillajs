@@ -1,6 +1,6 @@
 import AiTerm from './ai-term-class.js';
 import AiTermChat from './ai-term-chat-class.js';
-import aiTermSetup from './ai-term-chat-setup.js';
+import aiTermSetup from './ai-term-setup.js';
 
 //defer loading because of fastboot and similar
 if(typeof document !== 'undefined')
