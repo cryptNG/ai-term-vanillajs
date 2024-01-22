@@ -1,7 +1,8 @@
+let _aiTermSetup=function (){};
 
 if(typeof document !== 'undefined')
 {
-  const aiTermSetup =function (){
+  _aiTermSetup =function (){
     //defer loading because of fastboot and similar
     if(typeof document !== 'undefined')
     {
@@ -15,10 +16,6 @@ if(typeof document !== 'undefined')
   }
 
 
-}else{
-  const aiTermSetup =function (){}
-  
 }
-
-export default aiTermSetup;
+export default _aiTermSetup;
 
