@@ -44,7 +44,7 @@ export default class AiTermChat extends HTMLElement {
         const style = document.createElement('style');
         style.textContent = `
         #ai-term-chat-window {
-          z-index: 1;
+          z-index: 100;
           height: 400px;
           width: 400px;
           background: white;
