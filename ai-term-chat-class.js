@@ -26,6 +26,7 @@ export default class AiTermChat extends HTMLElement {
     constructor() {
         super();
         this.apiKey='';
+        this.apiUrl='https://ai-term.app/api/request';
         const template = document.getElementById('ai-term-chat');
         const templateContent = template.content;
         //const span = document.createElement('span');
@@ -235,7 +236,7 @@ export default class AiTermChat extends HTMLElement {
 
 
           try{
-            const response = await fetch('https://ai-term.app/api/free/request', {
+            const response = await fetch(this.apiUrl, {
               method: "POST", 
               mode: "cors", 
               cache: "no-cache", 
@@ -261,10 +262,11 @@ export default class AiTermChat extends HTMLElement {
     }
 
     static get observedAttributes() {
-      return ["api-key"];
+      return ["api-key","api-url"];
     }
     attributeChangedCallback(name, oldValue, newValue) {
       if(name==='api-key') this.apiKey = newValue;
+      if(name==='api-url') this.apiUrl = newValue;
     }
 
 
