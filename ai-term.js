@@ -102,7 +102,7 @@ if(typeof document !== 'undefined')
   customElements.define('ai-term-chat', AiTermChat);
 
 
-const aiTermSetup = function (){
+const aiTermSetup =function (){
   //defer loading because of fastboot and similar
   if(typeof document !== 'undefined')
   {
@@ -117,10 +117,10 @@ const aiTermSetup = function (){
 
 
 }else{
-  const AiTermChat =function (){}
-  const AiTerm =function (){}
-  const aiTermSetup = function (){}
+  function AiTermChat(){}
+  function AiTerm(){}
+  function aiTermSetup(){}
   
 }
 
-export {  AiTermChat,  AiTerm,  aiTermSetup };
+export {  AiTermChat,  AiTerm };
