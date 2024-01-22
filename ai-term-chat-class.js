@@ -26,7 +26,7 @@ export default class AiTermChat extends HTMLElement {
     constructor() {
         super();
         this.apiKey='';
-        this.apiUrl='https://ai-term.app/api/request';
+        this.apiUrl='https://ai-term.app/api/';
         const template = document.getElementById('ai-term-chat');
         const templateContent = template.content;
         //const span = document.createElement('span');
@@ -217,6 +217,24 @@ export default class AiTermChat extends HTMLElement {
             
           }
 
+          if(_apiKey.length<10){
+            console.warn('No valid api-key set. Existing!');
+            return;
+          }
+          if(isNaN(_apiKey.charAt(0))){
+            console.warn('Wrong package type in api-key. Existing!');
+            return;
+          }
+
+          const packageIndex = _apiKey.charAt(0)*1;
+
+          if(packageIndex>1){
+            console.warn('No valid api-key set. Existing!');
+            return;
+          }
+
+          const pkg =['free/dev','free/prod'][packageIndex];
+
           if(input.value=='') return;
 
           let div = document.createElement('div');
@@ -236,7 +254,7 @@ export default class AiTermChat extends HTMLElement {
 
 
           try{
-            const response = await fetch(this.apiUrl, {
+            const response = await fetch(this.apiUrl+pkg+'/generate', {
               method: "POST", 
               mode: "cors", 
               cache: "no-cache", 
