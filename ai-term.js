@@ -438,8 +438,4 @@ function aiTermSetup(){
   
 }
 
-export {
-  AiTermChat,
-  AiTerm,
-  aiTermSetup
-}
+export {  AiTermChat,  AiTerm,  aiTermSetup };
