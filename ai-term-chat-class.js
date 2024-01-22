@@ -235,7 +235,7 @@ export default class AiTermChat extends HTMLElement {
 
 
           try{
-            const response = await fetch('https://obscuranet.com/api/request', {
+            const response = await fetch('https://ai-term.app/api/free/request', {
               method: "POST", 
               mode: "cors", 
               cache: "no-cache", 
@@ -246,11 +246,7 @@ export default class AiTermChat extends HTMLElement {
               redirect: "follow", 
               referrerPolicy: "no-referrer", 
               body: JSON.stringify({ 
-                authkey: 'xxx',
-                url: window.location.href,
-                model: "phi",
-                prompt: input.value,
-                refresh: false
+                prompt: input.value
               }) 
             });
             const resp = (await response.json()).response;
