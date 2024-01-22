@@ -90,7 +90,7 @@ if(typeof document !== 'undefined')
   document.querySelector('body').prepend(tpl1);
 
 
-class AiTerm extends HTMLElement {
+const AiTerm = class extends HTMLElement {
           
     constructor() {
         super();
@@ -137,7 +137,7 @@ class AiTerm extends HTMLElement {
   customElements.define('ai-term', AiTerm);
 
 
-class AiTermChat extends HTMLElement {
+const AiTermChat = class extends HTMLElement {
     minify(event){
       event.target.closest('#ai-term-chat-window').classList.add('min-size');
       event.target.closest('#ai-term-chat-window').classList.remove('max-size');
