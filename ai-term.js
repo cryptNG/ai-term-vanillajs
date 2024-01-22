@@ -1,5 +1,6 @@
 import AiTerm from './ai-term-class.js';
 import AiTermChat from './ai-term-chat-class.js';
+import aiTermSetup from './ai-term-chat-setup.js';
 
 //defer loading because of fastboot and similar
 if(typeof document !== 'undefined')
@@ -101,26 +102,7 @@ if(typeof document !== 'undefined')
 
   customElements.define('ai-term-chat', AiTermChat);
 
-
-const aiTermSetup =function (){
-  //defer loading because of fastboot and similar
-  if(typeof document !== 'undefined')
-  {
-    if(document.querySelector('template#ai-term')!==null){
-      console.log('Found <template>: ai-term');
-    }
-    if(document.querySelector('template#ai-term-chat')!==null){
-      console.log('Found <template>: ai-term-chat');
-    }
   }
-}
 
 
-}else{
-  function AiTermChat(){}
-  function AiTerm(){}
-  function aiTermSetup(){}
-  
-}
-
-export {  AiTermChat,  AiTerm };
+export {  AiTermChat,  AiTerm, aiTermSetup };
