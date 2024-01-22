@@ -430,18 +430,16 @@ function aiTermSetup(){
   }
 }
 
-module.exports = {
-  AiTermChat,
-  AiTerm,
-  aiTermSetup
-};
+
 }else{
   function AiTermChat(){}
   function AiTerm(){}
   function aiTermSetup(){}
-  module.exports = {
-    AiTermChat,
-    AiTerm,
-    aiTermSetup
-  };
+  
+}
+
+export {
+  AiTermChat,
+  AiTerm,
+  aiTermSetup
 }
