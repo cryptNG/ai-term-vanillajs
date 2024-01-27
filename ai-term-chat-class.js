@@ -340,7 +340,7 @@ export default class AiTermChat extends HTMLElement {
             
           }
 
-          if(_apiKey.length<10){
+          if(_apiKey.length<110){
             console.warn('No valid api-key set. Existing!');
             return;
           }
@@ -351,7 +351,7 @@ export default class AiTermChat extends HTMLElement {
 
           const packageIndex = _apiKey.charAt(0)*1;
 
-          if(packageIndex>1){
+          if(packageIndex>3){
             console.warn('No valid api-key set. Existing!');
             return;
           }
