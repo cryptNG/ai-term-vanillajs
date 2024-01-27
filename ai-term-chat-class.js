@@ -250,7 +250,7 @@ export default class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window form .textarea {
-          height: 240px;
+          height: 290px;
           line-height:1.5em;
           margin-bottom:9px;
           border-radius:10px;
