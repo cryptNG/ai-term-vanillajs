@@ -52,6 +52,7 @@ export default class AiTermChat extends HTMLElement {
             height:100dvh;
             position:fixed;
             top: 100dvh;
+            left: 0;
             visibility: hidden;
             background-color: #aeaeae6b;
             backdrop-filter: blur(3px);
@@ -59,6 +60,7 @@ export default class AiTermChat extends HTMLElement {
 
           .backdrop.active{
             top:0;
+
             visibility:visible;
           }
         }
