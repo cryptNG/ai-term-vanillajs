@@ -74,6 +74,29 @@ export default class AiTermChat extends HTMLElement {
         
         
 
+        
+        #ai-term-chat-window {
+          z-index: 9999999999;
+          
+          height: 400px;
+          width: 400px;
+          background: white;
+          position: fixed;
+          display:flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          align-items: center;
+          justify-content: flex-start;
+    
+          padding: 0px;
+          box-shadow: -5px 5px 10px #00000085;
+          transition:all 0.4s ease-in-out;
+          overflow: hidden;
+          color:black;
+          
+          transition: all 0.5s ease-in-out;
+        }
+
         @media (max-width: 800px)
         {
 
@@ -99,7 +122,7 @@ export default class AiTermChat extends HTMLElement {
           }
         }
 
-        @media (min-width: 800px)
+        @media (min-width: 801px)
         {
           #ai-term-chat-window.active {
             display:flex;
@@ -119,27 +142,6 @@ export default class AiTermChat extends HTMLElement {
 
           
 
-        }
-        #ai-term-chat-window {
-          z-index: 9999999999;
-          
-          height: 400px;
-          width: 400px;
-          background: white;
-          position: fixed;
-          display:flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
-          align-items: center;
-          justify-content: flex-start;
-    
-          padding: 0px;
-          box-shadow: -5px 5px 10px #00000085;
-          transition:all 0.4s ease-in-out;
-          overflow: hidden;
-          color:black;
-          
-          transition: all 0.5s ease-in-out;
         }
 
         #ai-term-chat-window.mid-size{
