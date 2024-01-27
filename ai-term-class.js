@@ -25,9 +25,10 @@ export default class AiTerm extends HTMLElement {
         shadowRoot.appendChild(templateContent.cloneNode(true));
         
 
-        shadowRoot.querySelector('.ai-term').addEventListener('click', () =>{
+        shadowRoot.querySelector('.ai-term').addEventListener('click', (event) =>{
+          event.stopPropagation();
           document.querySelector('body').aiTermInputRef.value=(this.prompt||null)===null?this.textContent:this.prompt;
-          document.querySelector('body').aiTermChatWindowRef.classList.add("active");
+          document.querySelector('body').aiTermChatWindowRef.show();
           document.querySelector('body').aiTermButtonRef.click();
 
         });
