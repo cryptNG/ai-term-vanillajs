@@ -37,11 +37,11 @@ if(typeof document !== 'undefined')
   </svg>
   <div class="window-buttons"><!--span class="minify"><svg width="14px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
   <rect style="fill:transparent;stroke:black;stroke-width:12px;" x="4" y="88" width="92" height="8" rx="5 " />
-  </svg></span--><span class="midify"><svg width="14px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  </svg></span><span class="midify"><svg width="14px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
   <rect style="fill:transparent;stroke:black;stroke-width:12px;" x="4" y="54" width="92" height="42" rx="5 " />
   </svg></span><span class="maxify"><svg width="14px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
   <rect style="fill:transparent;stroke:black;stroke-width:12px;" x="4" y="4" width="92" height="92" rx="5  " />
-  </svg></span><span class="close">X</span></div>
+  </svg></span--><span class="close">X</span></div>
   </div>
   <style>
     div.window-buttons>span{

@@ -233,7 +233,7 @@ export default class AiTermChat extends HTMLElement {
             return;
           }
 
-          const pkg =['free/dev','free/prod'][packageIndex];
+          const pkg =['free/dev','free/prod','std/dev','std/prod'][packageIndex];
 
           if(input.value=='') return;
 
