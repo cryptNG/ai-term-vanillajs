@@ -29,6 +29,7 @@ export default class AiTermChat extends HTMLElement {
         super();
         this.apiKey='';
         this.apiUrl='https://ai-term.app/api/';
+        this.showPrompt='';
         const template = document.getElementById('ai-term-chat');
         const templateContent = template.content;
         //const span = document.createElement('span');
@@ -205,13 +206,17 @@ export default class AiTermChat extends HTMLElement {
           border-bottom: 1px solid cornflowerblue;
         }
 
-        #ai-term-chat-window form .prompt-ask{
+        #ai-term-chat-window.display-prompt form .prompt-ask{
           display: flex;
+        }
+        #ai-term-chat-window form .prompt-ask{
+          
           flex-direction: row;
           flex-wrap: nowrap;
           position: absolute;
           bottom: 10px;
           width: 350px;
+          display:none;
         }
 
         #ai-term-chat-window form input {
@@ -254,7 +259,7 @@ export default class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window form .textarea {
-          height: 290px;
+          height: 340px;
           line-height:1.5em;
           margin-bottom:9px;
           border-radius:10px;
@@ -263,6 +268,10 @@ export default class AiTermChat extends HTMLElement {
           padding: 5px;
           overflow-x: hidden;
           overflow-y: auto;
+        }
+
+        #ai-term-chat-window.display-prompt form .textarea {
+          height: 290px;
         }
 
         #ai-term-chat-window form .textarea b{
@@ -408,11 +417,18 @@ export default class AiTermChat extends HTMLElement {
     }
 
     static get observedAttributes() {
-      return ["api-key","api-url"];
+      return ["api-key","api-url","show-prompt"];
     }
     attributeChangedCallback(name, oldValue, newValue) {
       if(name==='api-key') this.apiKey = newValue;
       if(name==='api-url') this.apiUrl = newValue;
+      if(name==='show-prompt'){
+        this.showPrompt = newValue+'';
+        if(this.showPrompt!=='' && this.showPrompt !=='false'){
+          this.shadowRoot.querySelector('#ai-term-chat-window').classList.add('display-prompt');
+        }else this.shadowRoot.querySelector('#ai-term-chat-window').classList.remove('display-prompt');
+
+      } 
     }
 
 
