@@ -9,7 +9,7 @@ if(typeof document !== 'undefined')
 {
   const tpl1 = document.createElement('template');
   tpl1.id='ai-term';
-  tpl1.innerHTML=`<div style="display: inline-flex;">
+  tpl1.innerHTML=`<div class="ai-term-container" style="display: inline-flex;">
   <span class="ai-term" part="ai-term-tag">
     <slot>
     </slot>

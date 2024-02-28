@@ -1,6 +1,6 @@
 {
   "name": "@ai-term/web-components",
-  "version": "0.4.2",
+  "version": "0.5.1",
   "description": "Unlock the full potential of your website with AI-Term's extensive features. Designed to seamlessly integrate with your existing setup, our innovative tools enhance user engagement, streamline content management, and optimize your site's performance. From smart term recognition to customizable AI responses, each feature is crafted to elevate your digital presence. Embrace the future of web interaction with AI-Term and transform your site into a dynamic, user-focused experience.",
   "main": "ai-term.js",
   "scripts": {

@@ -24,6 +24,7 @@ export default class AiTermChat extends HTMLElement {
       event.target.closest('#ai-term-chat-window').classList.remove('min-size');
     }
 
+    optionsChangeListeners=[];
     
     constructor() {
         super();
@@ -55,7 +56,7 @@ export default class AiTermChat extends HTMLElement {
             top: 100dvh;
             left: 0;
             visibility: hidden;
-            background-color: #aeaeae6b;
+            background-color: #aeaeaecc;
             backdrop-filter: blur(3px);
           }
 
@@ -82,7 +83,7 @@ export default class AiTermChat extends HTMLElement {
           z-index: 9999999999;
           
           height: 400px;
-          width: 400px;
+          width: min(400px,100dvw);
           background: white;
           position: fixed;
           display:flex;
@@ -114,7 +115,7 @@ export default class AiTermChat extends HTMLElement {
 
           #ai-term-chat-window {
             top:calc(50dvh - 200px);
-            left:calc(50dvw - 200px);
+            left: calc(50dvw - min(50dvw,200px));
             border-radius: 20px;
             display:none;
             opacity:0;
@@ -175,6 +176,7 @@ export default class AiTermChat extends HTMLElement {
           justify-content: space-between;
           align-items: center;
           color: black;
+          background-color: #dddddd;
         }
 
         #ai-term-chat-window .title .window-buttons{
@@ -192,7 +194,7 @@ export default class AiTermChat extends HTMLElement {
 
         
         #ai-term-chat-window form {
-          width: 350px;
+          width: min(350px,95dvw);
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
@@ -215,7 +217,7 @@ export default class AiTermChat extends HTMLElement {
           flex-wrap: nowrap;
           position: absolute;
           bottom: 10px;
-          width: 350px;
+          width: min(350px,95dvw);
           display:none;
         }
 
@@ -337,6 +339,7 @@ export default class AiTermChat extends HTMLElement {
           chatW.close();
         };
         document.querySelector('body').aiTermButtonRef = shadowRoot.querySelector('button');
+        document.querySelector('body').aiTermRegisterOptionChange = this.onOptionsChange;
 
         var form = shadowRoot.querySelector("form");
         function handleForm(event) { event.preventDefault(); } 
@@ -418,12 +421,26 @@ export default class AiTermChat extends HTMLElement {
         
     }
 
+    onOptionsChange=(cb)=>{
+      this.optionsChangeListeners.push(cb);
+      if(this.options!==undefined){
+        cb(this.options);
+      }
+    }
+    updateOptions=()=>{
+      this.optionsChangeListeners.forEach((cb)=>cb(this.options));
+    }
+
     static get observedAttributes() {
-      return ["api-key","api-url","show-prompt"];
+      return ["api-key","api-url","show-prompt","options"];
     }
     attributeChangedCallback(name, oldValue, newValue) {
       if(name==='api-key') this.apiKey = newValue;
       if(name==='api-url') this.apiUrl = newValue;
+      if(name==='options'){
+        this.options = JSON.parse(newValue||{});
+        this.updateOptions();
+      } 
       if(name==='show-prompt'){
         this.showPrompt = newValue+'';
         if(this.showPrompt!=='' && this.showPrompt !=='false'){

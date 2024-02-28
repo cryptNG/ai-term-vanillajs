@@ -1,7 +1,7 @@
 //defer loading because of fastboot and similar
 
 export default class AiTerm extends HTMLElement {
-          
+  shadowRoot=null
   constructor() {
       super();
       this.prompt = '';
@@ -14,17 +14,57 @@ export default class AiTerm extends HTMLElement {
       //templateContent.appendChild(span)
 
       const shadowRoot = this.attachShadow({mode: 'open'});
+      this.shadowRoot=shadowRoot;
 
       const style = document.createElement('style');
       style.textContent = `
-          span.ai-term { padding: 0px;border-bottom: 0.1em dashed color(display-p3 1.000000 0.270588 0.000000 / 0.701961);cursor: pointer;}
+          :host{
+            --underline-color:color(display-p3 1.000000 0.270588 0.000000 / 0.701961);
+            --underline-style:dashed;
+            --underline-width:0.1em;
+            --text-color:inherited;
+            --underline-rgb:linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+          }
+
+          span.ai-term {
+            position:relative;
+            cursor:pointer;
+            color:var(--text-color);
+          }
+
+          :host(:not(.rgb)) :not(.ai-term-container.rgb) span.ai-term { 
+            padding: 0px;
+            border-bottom: var(--underline-width) var(--underline-style) var(--underline-color);
+            cursor: pointer;
+          }
+
+          .ai-term-container.rgb span.ai-term:after,
+          :host(.rgb) span.ai-term:after {
+            content: "";
+            position: absolute;
+            top: 99%;
+            width: 100%;
+            left: 0;
+            height:  max(2px,calc(var(--underline-width) / 2));
+            border-radius: 2px;
+            background: var(--underline-rgb);
+          }
+          .ai-term-container.asterisk span.ai-term:before,
+          :host(.asterisk) span.ai-term:before {
+            content: "*";
+            position: absolute;
+            top: -0.1em;
+            width: 1em;
+            color:var(--underline-color);
+            left: calc(100% - 0.3em);
+          }
       `;
 
       
       shadowRoot.appendChild(style);
       shadowRoot.appendChild(templateContent.cloneNode(true));
       
-
+      this.registerOptionsChange();
       shadowRoot.querySelector('.ai-term').addEventListener('click', (event) =>{
         event.stopPropagation();
         document.querySelector('body').aiTermInputRef.value=(this.prompt||null)===null?this.textContent:this.prompt;
@@ -32,6 +72,22 @@ export default class AiTerm extends HTMLElement {
         document.querySelector('body').aiTermButtonRef.click();
 
       });
+
+      
+  }
+
+  registerOptionsChange = async ()=>{
+    const body = document.querySelector('body');
+    while(body.aiTermRegisterOptionChange === undefined){
+      await Sleep(100);
+    }
+    body.aiTermRegisterOptionChange(this.handleOptionsChange);
+  }
+
+  handleOptionsChange=(options)=>{
+    if((options?.highlight||null)!==null){
+      options.highlight.split(',').forEach(hl=> this.shadowRoot.querySelector('.ai-term-container').classList.add(hl));
+    }
   }
 
   static get observedAttributes() {
@@ -44,3 +100,6 @@ export default class AiTerm extends HTMLElement {
 
 }
   
+async function Sleep(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
