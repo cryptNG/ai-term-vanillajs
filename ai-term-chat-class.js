@@ -180,26 +180,43 @@ export default class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window .title .window-buttons{
-          position:relative;
-          right:-5px;
+          position: relative;
+          right: 6px;
+          top: 2px;
+          background-color: white;
+          width: 21px;
+          height: 21px;
+          border-radius: 41px;
         }
 
-        #ai-term-chat-window .title .window-buttons .span{
-          cursor:pointer;
+
+        #ai-term-chat-window .title .window-buttons span{
+          display: inline-block;
+          position: relative;
+          top: -1px;
+          left: 5px;
+          cursor: pointer;
+          color: #2f2f2f;
+          transform: scaleY(0.8);
+          transition: all 0.3s ease-in-out;
         }
 
+        #ai-term-chat-window .title .window-buttons span:hover{
+          color:black;
+          text-shadow: 1px 2px 2px rgba(0,0,0,0.5);
+        }
         .backdrop.active #ai-term-chat-window {
           bottom: 0vh;
         }
 
         
         #ai-term-chat-window form {
-          width: min(350px,95dvw);
+          width: min(380px,95dvw);
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
           align-items: left;
-          padding:10px 20px;
+          padding:10px 10px;
         }
 
         #ai-term-chat-window form label{

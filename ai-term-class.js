@@ -23,7 +23,11 @@ export default class AiTerm extends HTMLElement {
             --underline-style:dashed;
             --underline-width:0.1em;
             --text-color:inherited;
-            --underline-rgb:linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+            --underline-rgb-1:linear-gradient(90deg, #ae1ffd,#ff3c34,#9bbf24);
+            --underline-rgb-2:linear-gradient(130deg,#2E3192,#1BFFFF 76.05%);
+            --underline-rgb-3:linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+            --underline-rgb-4:linear-gradient(90deg, #e50b58,#b29d23,#55ddbd);
+            --underline-rgb-5:linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
           }
 
           span.ai-term {
@@ -47,7 +51,7 @@ export default class AiTerm extends HTMLElement {
             left: 0;
             height:  max(2px,calc(var(--underline-width) / 2));
             border-radius: 2px;
-            background: var(--underline-rgb);
+            background: var(--underline-rgb-4);
           }
           .ai-term-container.asterisk span.ai-term:before,
           :host(.asterisk) span.ai-term:before {
