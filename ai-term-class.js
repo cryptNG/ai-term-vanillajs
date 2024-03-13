@@ -19,20 +19,25 @@ export default class AiTerm extends HTMLElement {
       const style = document.createElement('style');
       style.textContent = `
           :host{
-            --underline-color:color(display-p3 1.000000 0.270588 0.000000 / 0.701961);
+            --underline-color:inherited;
             --underline-style:dashed;
             --underline-width:0.1em;
             --text-color:inherited;
+            --text-family:revert;
+            --text-size:auto;
+            --text-cursor:pointer;
+            --underline-rgb:linear-gradient(90deg, #e50b58,#b29d23,#55ddbd);
             --underline-rgb-1:linear-gradient(90deg, #ae1ffd,#ff3c34,#9bbf24);
             --underline-rgb-2:linear-gradient(130deg,#2E3192,#1BFFFF 76.05%);
             --underline-rgb-3:linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
-            --underline-rgb-4:linear-gradient(90deg, #e50b58,#b29d23,#55ddbd);
             --underline-rgb-5:linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
           }
 
           span.ai-term {
             position:relative;
-            cursor:pointer;
+            font-size:var(--text-size);
+            font-family:var(--text-family);
+            cursor:var(--text-cursor);
             color:var(--text-color);
           }
 
@@ -46,21 +51,21 @@ export default class AiTerm extends HTMLElement {
           :host(.rgb) span.ai-term:after {
             content: "";
             position: absolute;
-            top: 99%;
+            top: 1.5em;
             width: 100%;
             left: 0;
             height:  max(2px,calc(var(--underline-width) / 2));
             border-radius: 2px;
-            background: var(--underline-rgb-4);
+            background: var(--underline-rgb);
           }
           .ai-term-container.asterisk span.ai-term:before,
           :host(.asterisk) span.ai-term:before {
             content: "*";
             position: absolute;
-            top: -0.1em;
+            top: -0.3em;
             width: 1em;
-            color:var(--underline-color);
-            left: calc(100% - 0.3em);
+            color: var(--underline-color);
+            left: calc(100% - 0.1em);
           }
       `;
 
