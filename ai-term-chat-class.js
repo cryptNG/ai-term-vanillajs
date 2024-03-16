@@ -187,13 +187,14 @@ export default class AiTermChat extends HTMLElement {
           width: 21px;
           height: 21px;
           border-radius: 41px;
+          font-family: sans-serif;
         }
 
 
         #ai-term-chat-window .title .window-buttons span{
           display: inline-block;
           position: relative;
-          top: -6px;
+          top: -2px;
           left: 5px;
           cursor: pointer;
           color: #2f2f2f;
