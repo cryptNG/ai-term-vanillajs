@@ -51,7 +51,7 @@ export default class AiTerm extends HTMLElement {
           :host(.rgb) span.ai-term:after {
             content: "";
             position: absolute;
-            top: 1.5em;
+            top: 1.3em;
             width: 100%;
             left: 0;
             height:  max(2px,calc(var(--underline-width) / 2));
