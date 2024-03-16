@@ -19,7 +19,7 @@ export default class AiTerm extends HTMLElement {
       const style = document.createElement('style');
       style.textContent = `
           :host{
-            --underline-color:inherited;
+            --underline-color:red;
             --underline-style:dashed;
             --underline-width:0.1em;
             --text-color:inherited;
