@@ -82,18 +82,20 @@ export default class AiTermChat extends HTMLElement {
         #ai-term-chat-window {
           z-index: 9999999999;
           
-          height: 400px;
+          height: calc(80dvh);
+          max-height: 650px;
           width: min(400px,100dvw);
           background: white;
           position: fixed;
           display:flex;
           flex-direction: column;
           flex-wrap: nowrap;
+          justify-content: space-between;
           align-items: center;
-          justify-content: flex-start;
-    
+          
+          border-radius: 15px;
           padding: 0px;
-          box-shadow: -5px 5px 10px #00000085;
+          box-shadow: 4px 4px 8px #00000065;
           transition:all 0.4s ease-in-out;
           overflow: hidden;
           color:black;
@@ -116,7 +118,7 @@ export default class AiTermChat extends HTMLElement {
           #ai-term-chat-window {
             top:calc(50dvh - 200px);
             left: calc(50dvw - min(50dvw,200px));
-            border-radius: 20px;
+            border-radius: 15px;
             display:none;
             opacity:0;
           }
@@ -134,13 +136,12 @@ export default class AiTermChat extends HTMLElement {
 
           
           #ai-term-chat-window.active.visible {
-            bottom:0px;
+            bottom:8dvh;
           }
 
           #ai-term-chat-window {
-            bottom:-440px;
-            right:0;
-            border-radius: 20px 20px 0 0;
+            bottom:-90dvh;
+            right:3dvw;
             display:flex;
           }
 
@@ -149,7 +150,7 @@ export default class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window.mid-size{
-          height: 400px;
+          height: 60dvh;
         }
 
         #ai-term-chat-window.min-size{
@@ -164,9 +165,8 @@ export default class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window .title {
-          width: calc(100% - 19px);
-          border-radius: 20px 20px 0 0;
-          padding: 2px 5px 4px 14px;
+          width: calc(100% - 25px);
+          padding: 9px 5px 9px 20px;
           color: black;
           font-size: large;
           font-weight: 600;
@@ -175,19 +175,18 @@ export default class AiTermChat extends HTMLElement {
           flex-wrap: nowrap;
           justify-content: space-between;
           align-items: center;
-          color: black;
-          background-color: #dddddd;
+          color: white;
+          background-color: #2196f3c9;
         }
 
         #ai-term-chat-window .title .window-buttons{
           position: relative;
           right: 6px;
           top: 2px;
-          background-color: white;
           width: 21px;
           height: 21px;
           border-radius: 41px;
-          font-family: sans-serif;
+          font-family: system-ui;
         }
 
 
@@ -197,7 +196,6 @@ export default class AiTermChat extends HTMLElement {
           top: -2px;
           left: 5px;
           cursor: pointer;
-          color: #2f2f2f;
           transform: scaleY(0.8);
           transition: all 0.3s ease-in-out;
         }
@@ -218,6 +216,7 @@ export default class AiTermChat extends HTMLElement {
           flex-wrap: nowrap;
           align-items: left;
           padding:10px 10px;
+          overflow-y: auto;
         }
 
         #ai-term-chat-window form label{
@@ -279,26 +278,56 @@ export default class AiTermChat extends HTMLElement {
         }
 
         #ai-term-chat-window form .textarea {
-          height: 340px;
-          line-height:1.5em;
-          margin-bottom:9px;
-          border-radius:10px;
+          line-height:1.3em;
           border: 0px solid cornflowerblue;
-          color: black;
+          color: rgba(0,0,0,0.74);
           padding: 5px;
           overflow-x: hidden;
           overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-end;
+        }
+
+        #ai-term-chat-window form .textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #ai-term-chat-window form .textarea::-webkit-scrollbar-track {
+            border-radius: 5px;
+            background-color: #e7e7e710;
+            border: 1px solid #cacaca10;
+        }
+        
+        #ai-term-chat-window form .textarea::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: #2196f370;
         }
 
         #ai-term-chat-window.display-prompt form .textarea {
-          height: 290px;
+          height: calc(100% - 60px);
         }
 
-        #ai-term-chat-window form .textarea b{
-          margin-top: 0.5em;
-          color: #4675c9;
-          display: inline-block;
+        #ai-term-chat-window form .textarea .ask{
+          box-shadow: 1px 2px 8px #00000030;
+          border-radius: 8px;
+          padding: 4px 8px;
+          margin: 2px 1px 5px 0;
+          width: 75%;
+          background-color: #2196f3;
+          color: white;
         }
+
+        #ai-term-chat-window form .textarea .response{
+          box-shadow: 1px 1px 5px #00000020;
+          border-radius: 8px;
+          padding: 4px 8px;
+          margin: 5px 1px 15px 1px;
+          width: calc(100% - 16px);
+          background-color: white;
+        }
+
         #ai-term-chat-window.max-size form .textarea{
           height:calc(80dvh - 2.5rem - 5dvh);
         }
@@ -310,6 +339,30 @@ export default class AiTermChat extends HTMLElement {
 
         #ai-term-chat-window form .textarea>div i{
           color:cornflowerblue;
+        }
+
+        #ai-term-chat-window form .footer{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          font-family: system-ui;
+          font-weight: 300;
+          font-size: smaller;
+          border-top: 1px solid #00000047;
+          padding-top: 5px;
+          color: rgba(0,0,0,0.6);
+        }
+
+        .logo-word{
+          color: #3f70c8;
+          font-family: monospace;
+          white-space: nowrap;
+        }
+
+        #ai-term-chat-window form .footer .logo-word{
+          margin-left:0.5em;
         }
         `;
 
@@ -398,12 +451,16 @@ export default class AiTermChat extends HTMLElement {
 
           let div = document.createElement('div');
 
-          div.innerHTML=`<b>${input.value}</b>`;
+          div.innerHTML=`<span>${input.value}</span>`;
+
+          div.classList.add('ask');
           
 
           textarea.appendChild(div);
 
           div = document.createElement('div');
+
+          div.classList.add('response');
 
           textarea.appendChild(div);
 
@@ -428,10 +485,10 @@ export default class AiTermChat extends HTMLElement {
               }) 
             });
             const resp = (await response.json()).response;
-            div.innerHTML=`<em>${resp}</em>`;
+            div.innerHTML=`<span>${resp}</span>`;
             
           }catch(e){
-            div.textContent='AI is overworked :-(';
+            div.innerHTML='<em>AI is overworked :-(</em>';
           }
           input.value='';
           textarea.scrollTop = textarea.scrollHeight;
