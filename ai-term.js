@@ -38,7 +38,7 @@ if(typeof document !== 'undefined')
     </svg></button>
   </div>
   <div class="footer">
-    <span> powered by </span><span class="logo-word">&lt;ai-term></span>
+    <span> Powered by </span><span class="logo-word">&lt;ai-term></span>
   </div>
   </form>
   </div>`;

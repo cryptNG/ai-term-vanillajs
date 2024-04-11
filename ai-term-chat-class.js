@@ -116,7 +116,7 @@ export default class AiTermChat extends HTMLElement {
           }
 
           #ai-term-chat-window {
-            top:calc(50dvh - 200px);
+            top:calc(50dvh - 325px);
             left: calc(50dvw - min(50dvw,200px));
             border-radius: 15px;
             display:none;
