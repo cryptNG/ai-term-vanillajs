@@ -2,14 +2,11 @@ import AiTerm from './ai-term-class.js';
 import AiTermChat from './ai-term-chat-class.js';
 import aiTermSetup from './ai-term-setup.js';
 
-
-
 //defer loading because of fastboot and similar
-if(typeof document !== 'undefined')
-{
+if (typeof document !== 'undefined') {
   const tpl1 = document.createElement('template');
-  tpl1.id='ai-term';
-  tpl1.innerHTML=`<div class="ai-term-container" style="display: inline-flex;">
+  tpl1.id = 'ai-term';
+  tpl1.innerHTML = `<div class="ai-term-container" style="display: inline-flex;">
   <span class="ai-term" part="ai-term-tag">
     <slot>
     </slot>
@@ -19,8 +16,8 @@ if(typeof document !== 'undefined')
   </div>`;
 
   const tpl2 = document.createElement('template');
-  tpl2.id='ai-term-chat';
-  tpl2.innerHTML=`
+  tpl2.id = 'ai-term-chat';
+  tpl2.innerHTML = `
   <div class="backdrop">
   </div>
   <div id="ai-term-chat-window" draggable=true part="ai-term-chat">
@@ -43,20 +40,14 @@ if(typeof document !== 'undefined')
   </form>
   </div>`;
 
-
   document.querySelector('body').prepend(tpl2);
   document.querySelector('body').prepend(tpl1);
 
-
-
   customElements.define('ai-term', AiTerm);
 
-
-//defer loading because of fastboot and similar
+  //defer loading because of fastboot and similar
 
   customElements.define('ai-term-chat', AiTermChat);
+}
 
-  }
-
-
-export {  AiTermChat,  AiTerm, aiTermSetup };
+export { AiTermChat, AiTerm, aiTermSetup };

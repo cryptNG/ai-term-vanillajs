@@ -1,52 +1,97 @@
-
 async function Sleep(milliseconds) {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
+const AsyncFunction = (async () => {}).constructor;
+
 export default class AiTermChat extends HTMLElement {
-    minify(event){
-      event.preventDefault();
-      event.target.closest('#ai-term-chat-window').classList.add('min-size');
-      event.target.closest('#ai-term-chat-window').classList.remove('max-size');
-      event.target.closest('#ai-term-chat-window').classList.remove('mid-size');
+  minify(event) {
+    event.preventDefault();
+    this._minify(event.target.closest('#ai-term-chat-window'));
+  }
+  midify(event) {
+    event.preventDefault();
+    this._midify(event.target.closest('#ai-term-chat-window'));
+  }
+
+  maxify(event) {
+    event.preventDefault();
+    this._maxify(event.target.closest('#ai-term-chat-window'));
+  }
+
+  _minify(ele) {
+    ele.classList.add('min-size');
+    ele.classList.remove('max-size');
+    ele.classList.remove('mid-size');
+  }
+  _midify(ele) {
+    ele.classList.add('mid-size');
+    ele.classList.remove('max-size');
+    ele.classList.remove('min-size');
+  }
+
+  _maxify(ele) {
+    ele.classList.add('max-size');
+    ele.classList.remove('mid-size');
+    ele.classList.remove('min-size');
+  }
+
+  optionsChangeListeners = [];
+
+  test = 'da';
+
+  constructor() {
+    super();
+
+    this.onOpen=async()=>{
+      
     }
-    midify(event){
-      event.preventDefault();
-      event.target.closest('#ai-term-chat-window').classList.add('mid-size');
-      event.target.closest('#ai-term-chat-window').classList.remove('max-size');
-      event.target.closest('#ai-term-chat-window').classList.remove('min-size');
+
+    this.onClose=async()=>{
+      
     }
 
-    maxify(event){
-      event.preventDefault();
-      event.target.closest('#ai-term-chat-window').classList.add('max-size');
-      event.target.closest('#ai-term-chat-window').classList.remove('mid-size');
-      event.target.closest('#ai-term-chat-window').classList.remove('min-size');
+    this.on = function (event,cb) {
+      switch(event){
+        case 'open':
+            this.onOpen=cb;
+          break;
+
+        case 'close':
+            this.onClose=cb;
+          break;
+      }
+    };
+
+    this.delegateEvent= async(eventCB)=>{
+      
+        if(eventCB instanceof AsyncFunction === true){
+          await eventCB();
+        }else{
+          eventCB();
+        }
     }
 
-    optionsChangeListeners=[];
-    
-    constructor() {
-        super();
-        this.apiKey='';
-        this.apiUrl='https://ai-term.app/api/';
-        this.showPrompt='';
-        const template = document.getElementById('ai-term-chat');
-        const templateContent = template.content;
-        //const span = document.createElement('span');
-        //const slot = document.createElement('slot');
-        //span.classList="ai-term";
-        //span.appendChild(slot);
-        //templateContent.appendChild(span)
+   
 
-        
+    this.on.bind(this);
+    this.apiKey = '';
+    this.apiUrl = 'https://ai-term.app/api/';
+    this.showPrompt = '';
+    this.obscure=false;
+    this.mode='chat-box';
+    const template = document.getElementById('ai-term-chat');
+    const templateContent = template.content;
+    //const span = document.createElement('span');
+    //const slot = document.createElement('slot');
+    //span.classList="ai-term";
+    //span.appendChild(slot);
+    //templateContent.appendChild(span)
 
-        
+    const shadowRoot = this.attachShadow({ mode: 'open' });
 
-        const shadowRoot = this.attachShadow({mode: 'open'});
-
-        const style = document.createElement('style');
-        style.textContent = `
+    const style = document.createElement('style');
+    style.textContent = `
         @media (max-width: 800px)
         {
           .backdrop{
@@ -81,9 +126,8 @@ export default class AiTermChat extends HTMLElement {
         
         #ai-term-chat-window {
           z-index: 9999999999;
-          
-          height: calc(80dvh);
-          max-height: 650px;
+          max-height: min(80dvh,650px);
+          min-height: min(50dvh,650px);
           width: min(400px,100dvw);
           background: white;
           position: fixed;
@@ -99,8 +143,23 @@ export default class AiTermChat extends HTMLElement {
           transition:all 0.4s ease-in-out;
           overflow: hidden;
           color:black;
-          
-          transition: all 0.5s ease-in-out;
+          opacity:0;
+          transition: all 1s ease-in-out;
+        }
+
+        #ai-term-chat-window.tooltip{
+          position:relative;
+          width:min(80dvw,1000px);
+          background-color:transparent;
+          background-color: #aeaeae1c;
+          backdrop-filter: blur(3px);
+        }
+
+        #ai-term-chat-window.active.tooltip{
+          position:absolute;
+        }
+        #ai-term-chat-window.active.visible {
+          opacity:1;
         }
 
         @media (max-width: 800px)
@@ -116,8 +175,9 @@ export default class AiTermChat extends HTMLElement {
           }
 
           #ai-term-chat-window {
-            top:calc(50dvh - min(40dvh,325px));
-            left: calc(50dvw - min(50dvw,200px));
+            top:calc(50dvh - min(40dvh,325px)) !important;
+            left: calc(50dvw - min(50dvw,200px)) !important;
+            width:min(400px,100dvw)!important;
             border-radius: 15px;
             display:none;
             opacity:0;
@@ -125,6 +185,10 @@ export default class AiTermChat extends HTMLElement {
 
           #ai-term-chat-window.max-size{
             top:45px;
+          }
+
+          #ai-term-chat-window.tooltip form {
+              width: min(390px,95dvw)!important;
           }
         }
 
@@ -139,12 +203,22 @@ export default class AiTermChat extends HTMLElement {
             bottom:8dvh;
           }
 
+          #ai-term-chat-window.tooltip {
+            bottom:auto;
+          }
+
           #ai-term-chat-window {
             bottom:-90dvh;
             right:3dvw;
             display:flex;
           }
 
+          #ai-term-chat-window.tooltip.active {
+            bottom:auto;
+          }
+          #ai-term-chat-window.tooltip.active.visible {
+            bottom:auto;
+          }
           
 
         }
@@ -153,10 +227,14 @@ export default class AiTermChat extends HTMLElement {
           height: 60dvh;
         }
 
+        #ai-term-chat-window.tooltip.mid-size{
+          height: auto;
+          min-height: auto;
+        }
+
         #ai-term-chat-window.min-size{
-          height: 50px;
-          width:50px;
-          right:0;
+          max-height: 50px;
+          min-height:auto;
         }
 
         #ai-term-chat-window.max-size{
@@ -179,6 +257,14 @@ export default class AiTermChat extends HTMLElement {
           background-color: #2196f3c9;
         }
 
+        #ai-term-chat-window.tooltip .title{
+          padding: 0px 5px 0px 20px;
+          background-color: transparent;
+        }
+        #ai-term-chat-window.tooltip .title>span{
+          visibility:hidden;
+        }
+
         #ai-term-chat-window .title .window-buttons{
           position: relative;
           right: 6px;
@@ -189,6 +275,9 @@ export default class AiTermChat extends HTMLElement {
           font-family: system-ui;
         }
 
+        #ai-term-chat-window.tooltip .title .window-buttons{
+          color:white;
+        }
 
         #ai-term-chat-window .title .window-buttons span{
           display: inline-block;
@@ -217,6 +306,10 @@ export default class AiTermChat extends HTMLElement {
           align-items: left;
           padding:10px 10px;
           overflow-y: auto;
+        }
+        #ai-term-chat-window.tooltip form {
+          width: min(78dvw,980px);
+          padding:0;
         }
 
         #ai-term-chat-window form label{
@@ -319,6 +412,10 @@ export default class AiTermChat extends HTMLElement {
           color: white;
         }
 
+        #ai-term-chat-window.tooltip form .textarea .ask{
+          display:none;
+        }
+
         #ai-term-chat-window form .textarea .response{
           box-shadow: 1px 1px 5px #00000020;
           border-radius: 8px;
@@ -366,164 +463,224 @@ export default class AiTermChat extends HTMLElement {
         }
         `;
 
+    shadowRoot.appendChild(style);
 
-        shadowRoot.appendChild(style);
-    
-        shadowRoot.appendChild(templateContent.cloneNode(true));
+    shadowRoot.appendChild(templateContent.cloneNode(true));
 
-        const input = shadowRoot.querySelector('input');
-        const textarea = shadowRoot.querySelector('.textarea');
+    const input = shadowRoot.querySelector('input');
+    const textarea = shadowRoot.querySelector('.textarea');
+
+    document.querySelector('body').aiTermInputRef = shadowRoot.querySelector('input');
+    const chatW = shadowRoot.querySelector('#ai-term-chat-window');
+    document.querySelector('body').aiTermChatWindowRef = shadowRoot.querySelector('#ai-term-chat-window');
+    chatW.show = async () => {
+      chatW.classList.add('active');
+      shadowRoot.querySelector('.backdrop').classList.add('active');
+      await Sleep(50);
+      chatW.classList.add('visible');
+      await this.delegateEvent(this.onOpen);
+      console.debug('ai-term-chat show executed');
+    };
+
+    chatW.close = async () => {
+      chatW.classList.remove('visible');
+      await Sleep(500);
+      shadowRoot.querySelector('.backdrop').classList.remove('active');
+      chatW.classList.remove('active');
+      chatW.classList.remove('max-size');
+      chatW.classList.remove('min-size');
+      chatW.classList.add('mid-size');
+      await this.delegateEvent(this.onClose);
+      console.debug('ai-term-chat close executed');
+    };
+
+    chatW.setAiTermRect=(rect)=>{
+      this.lastCallerRect = rect;
+    }
+    chatW.setAiTermRect.bind(this)
+    //shadowRoot.querySelector('.window-buttons .minify').addEventListener('click', this.minify);
+    //shadowRoot.querySelector('.window-buttons .midify').addEventListener('click', this.midify);
+    //shadowRoot.querySelector('.window-buttons .maxify').addEventListener('click', this.maxify);
+    shadowRoot
+      .querySelector('.window-buttons .close')
+      .addEventListener('click', async (event) => {
+        chatW.close();
+      });
+
+    shadowRoot.querySelector('.backdrop').onclick = async (event) => {
+      chatW.close();
+    };
+    document.querySelector('body').aiTermButtonRef = shadowRoot.querySelector('button');
+    document.querySelector('body').aiTermRegisterOptionChange = this.onOptionsChange;
+
+    var form = shadowRoot.querySelector('form');
+    function handleForm(event) {
+      event.preventDefault();
+    }
+    this.registerOptionsChange();
+    document.querySelector('body').aiTermButtonRef.onclick = async (event) => {
+      if(this.mode==='tooltip'){
+        chatW.style.left=`calc( (min(80dvw,1000px) / 2) - ${this.lastCallerRect.x / 2}+'px);`;
+        chatW.style.top=(this.lastCallerRect.y+this.lastCallerRect.height) + 'px';
+      }
+      if(this.obscure) this._minify(chatW);
+      chatW.show();
+      // event.stopPropagation();
+      event.preventDefault();
+      let _apiKey = this.apiKey;
+      if (_apiKey === '') {
+        const meta = document.querySelector('head meta[name="ai-term_apiKey"]');
+        if (meta === null) {
+          console.warn('No api-key set to ai-term-chat component. Existing!');
+          return;
+        }
+
+        _apiKey = meta.getAttribute('content');
+      }
+
+      if (_apiKey.length < 110) {
+        console.warn('No valid api-key set. Existing!');
+        return;
+      }
+      if (isNaN(_apiKey.charAt(0))) {
+        console.warn('Wrong package type in api-key. Existing!');
+        return;
+      }
+
+      const packageIndex = _apiKey.charAt(0) * 1;
+
+      if (packageIndex > 3) {
+        console.warn('No valid api-key set. Existing!');
+        return;
+      }
+
+      const pkg = ['free/dev', 'free/prod', 'std/dev', 'std/prod'][
+        packageIndex
+      ];
+
+      if (input.value == '') return;
+
+      let responseDiv;
+
+      if(!this.obscure){
+
+        const askDiv = document.createElement('div');
+
+        askDiv.innerHTML = `<span>${input.value}</span>`;
+
+        askDiv.classList.add('ask');
+
+        textarea.appendChild(askDiv);
+
+        responseDiv = document.createElement('div');
+
+        responseDiv.classList.add('response');
+
+        textarea.appendChild(responseDiv);
+
+      }else{
+        responseDiv = textarea.querySelector('.response');
 
         
-        
 
-        document.querySelector('body').aiTermInputRef = shadowRoot.querySelector('input');
-        const chatW = shadowRoot.querySelector('#ai-term-chat-window');
-        document.querySelector('body').aiTermChatWindowRef = shadowRoot.querySelector('#ai-term-chat-window');
-        chatW.show = async ()=>{
-          chatW.classList.add('active');
-          shadowRoot.querySelector('.backdrop').classList.add('active');
-          await Sleep(50);
-          chatW.classList.add('visible');
-        };
+        if(responseDiv === null){
+          responseDiv = document.createElement('div');
 
-        chatW.close = async ()=>{
-    
-            chatW.classList.remove('visible');
-            await Sleep(500);
-            shadowRoot.querySelector('.backdrop').classList.remove('active');
-            chatW.classList.remove('active');
-            chatW.classList.remove('max-size');
-            chatW.classList.remove('min-size');
-            chatW.classList.add('mid-size');
-         
-        };
+          responseDiv.classList.add('response');
 
-        //shadowRoot.querySelector('.window-buttons .minify').addEventListener('click', this.minify);
-        //shadowRoot.querySelector('.window-buttons .midify').addEventListener('click', this.midify);
-        //shadowRoot.querySelector('.window-buttons .maxify').addEventListener('click', this.maxify);
-        shadowRoot.querySelector('.window-buttons .close').addEventListener('click', async (event)=>{
-          chatW.close();
+          textarea.appendChild(responseDiv);
+        }else{
+          responseDiv.innerHTML = ``;
+        }
+      }
+      
+      
+
+      if(!this.obscure) responseDiv.innerHTML = `<i>... AI is thinking ...</i>`;
+      textarea.scrollTop = textarea.scrollHeight;
+
+      try {
+        const response = await fetch(this.apiUrl + pkg + '/generate', {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: _apiKey,
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+          body: JSON.stringify({
+            prompt: input.value,
+          }),
         });
+        const resp = (await response.json()).response;
+        responseDiv.innerHTML = `<span>${resp}</span>`;
 
-        shadowRoot.querySelector('.backdrop').onclick = async (event)=>{
-          chatW.close();
-        };
-        document.querySelector('body').aiTermButtonRef = shadowRoot.querySelector('button');
-        document.querySelector('body').aiTermRegisterOptionChange = this.onOptionsChange;
+        if(this.obscure) if(this.obscure) this._midify(chatW);;
+      } catch (e) {
+        if(!this.obscure) responseDiv.innerHTML = '<em>AI is overworked :-(</em>';
+      }
+      input.value = '';
+      textarea.scrollTop = textarea.scrollHeight;
 
-        var form = shadowRoot.querySelector("form");
-        function handleForm(event) { event.preventDefault(); } 
-        document.querySelector('body').aiTermButtonRef.onclick = async (event)=>{
-         // event.stopPropagation();
-         event.preventDefault();
-          let _apiKey=this.apiKey;
-          if(_apiKey===''){
-            const meta = document.querySelector('head meta[name="ai-term_apiKey"]');
-            if(meta===null){
-              console.warn('No api-key set to ai-term-chat component. Existing!');
-              return;
-            }
+      
+    };
+  }
 
-            _apiKey=meta.getAttribute('content');
-            
-          }
+  registerOptionsChange = async () => {
+    const body = document.querySelector('body');
+    while (body.aiTermRegisterOptionChange === undefined) {
+      await Sleep(100);
+    }
+    body.aiTermRegisterOptionChange(this.handleOptionsChange);
+  };
 
-          if(_apiKey.length<110){
-            console.warn('No valid api-key set. Existing!');
-            return;
-          }
-          if(isNaN(_apiKey.charAt(0))){
-            console.warn('Wrong package type in api-key. Existing!');
-            return;
-          }
-
-          const packageIndex = _apiKey.charAt(0)*1;
-
-          if(packageIndex>3){
-            console.warn('No valid api-key set. Existing!');
-            return;
-          }
-
-          const pkg =['free/dev','free/prod','std/dev','std/prod'][packageIndex];
-
-          if(input.value=='') return;
-
-          let div = document.createElement('div');
-
-          div.innerHTML=`<span>${input.value}</span>`;
-
-          div.classList.add('ask');
-          
-
-          textarea.appendChild(div);
-
-          div = document.createElement('div');
-
-          div.classList.add('response');
-
-          textarea.appendChild(div);
-
-          div.innerHTML=`<i>... AI is thinking ...</i>`;
-          textarea.scrollTop = textarea.scrollHeight;
-
-
-
-          try{
-            const response = await fetch(this.apiUrl+pkg+'/generate', {
-              method: "POST", 
-              mode: "cors", 
-              cache: "no-cache", 
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization":_apiKey
-              },
-              redirect: "follow", 
-              referrerPolicy: "no-referrer", 
-              body: JSON.stringify({ 
-                prompt: input.value
-              }) 
-            });
-            const resp = (await response.json()).response;
-            div.innerHTML=`<span>${resp}</span>`;
-            
-          }catch(e){
-            div.innerHTML='<em>AI is overworked :-(</em>';
-          }
-          input.value='';
-          textarea.scrollTop = textarea.scrollHeight;
-        };
-        
+  handleOptionsChange = (options) => {
+    if ((options?.mode || null) !== null) {
+      if(options.mode==='tooltip') this.obscure=true;
+      this.mode=options.mode;
+      this.shadowRoot.querySelector('#ai-term-chat-window').classList.add(options.mode)
     }
 
-    onOptionsChange=(cb)=>{
-      this.optionsChangeListeners.push(cb);
-      if(this.options!==undefined){
-        cb(this.options);
+    if ((options?.obscure || null) !== null) {
+      if(options.obscure = 'true'){
+        this.obscure=true;
+        this.shadowRoot.querySelector('#ai-term-chat-window').classList.add('obscure');
       }
     }
-    updateOptions=()=>{
-      this.optionsChangeListeners.forEach((cb)=>cb(this.options));
+  };
+
+  onOptionsChange = (cb) => {
+    this.optionsChangeListeners.push(cb);
+    if (this.options !== undefined) {
+      cb(this.options);
     }
+  };
+  updateOptions = () => {
+    this.optionsChangeListeners.forEach((cb) => cb(this.options));
+  };
 
-    static get observedAttributes() {
-      return ["api-key","api-url","show-prompt","options"];
+  static get observedAttributes() {
+    return ['api-key', 'api-url', 'show-prompt', 'options'];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'api-key') this.apiKey = newValue;
+    if (name === 'api-url') this.apiUrl = newValue;
+    if (name === 'options') {
+      this.options = JSON.parse(newValue || {});
+      this.updateOptions();
     }
-    attributeChangedCallback(name, oldValue, newValue) {
-      if(name==='api-key') this.apiKey = newValue;
-      if(name==='api-url') this.apiUrl = newValue;
-      if(name==='options'){
-        this.options = JSON.parse(newValue||{});
-        this.updateOptions();
-      } 
-      if(name==='show-prompt'){
-        this.showPrompt = newValue+'';
-        if(this.showPrompt!=='' && this.showPrompt !=='false'){
-          this.shadowRoot.querySelector('#ai-term-chat-window').classList.add('display-prompt');
-        }else this.shadowRoot.querySelector('#ai-term-chat-window').classList.remove('display-prompt');
-
-      } 
+    if (name === 'show-prompt') {
+      this.showPrompt = newValue + '';
+      if (this.showPrompt !== '' && this.showPrompt !== 'false') {
+        this.shadowRoot
+          .querySelector('#ai-term-chat-window')
+          .classList.add('display-prompt');
+      } else
+        this.shadowRoot
+          .querySelector('#ai-term-chat-window')
+          .classList.remove('display-prompt');
     }
-
-
+  }
 }

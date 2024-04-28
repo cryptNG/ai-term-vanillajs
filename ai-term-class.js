@@ -1,23 +1,23 @@
 //defer loading because of fastboot and similar
 
 export default class AiTerm extends HTMLElement {
-  shadowRoot=null
+  shadowRoot = null;
   constructor() {
-      super();
-      this.prompt = '';
-      const template = document.getElementById('ai-term');
-      const templateContent = template.content;
-      //const span = document.createElement('span');
-      //const slot = document.createElement('slot');
-      //span.classList="ai-term";
-      //span.appendChild(slot);
-      //templateContent.appendChild(span)
+    super();
+    this.prompt = '';
+    const template = document.getElementById('ai-term');
+    const templateContent = template.content;
+    //const span = document.createElement('span');
+    //const slot = document.createElement('slot');
+    //span.classList="ai-term";
+    //span.appendChild(slot);
+    //templateContent.appendChild(span)
 
-      const shadowRoot = this.attachShadow({mode: 'open'});
-      this.shadowRoot=shadowRoot;
+    const shadowRoot = this.attachShadow({ mode: 'open' });
+    this.shadowRoot = shadowRoot;
 
-      const style = document.createElement('style');
-      style.textContent = `
+    const style = document.createElement('style');
+    style.textContent = `
           :host{
             --underline-color:red;
             --underline-style:dashed;
@@ -77,46 +77,47 @@ export default class AiTerm extends HTMLElement {
           }
       `;
 
-      
-      shadowRoot.appendChild(style);
-      shadowRoot.appendChild(templateContent.cloneNode(true));
-      
-      this.registerOptionsChange();
-      shadowRoot.querySelector('.ai-term').addEventListener('click', (event) =>{
-        event.stopPropagation();
-        document.querySelector('body').aiTermInputRef.value=(this.prompt||null)===null?this.textContent:this.prompt;
-        document.querySelector('body').aiTermChatWindowRef.show();
-        document.querySelector('body').aiTermButtonRef.click();
+    shadowRoot.appendChild(style);
+    shadowRoot.appendChild(templateContent.cloneNode(true));
 
-      });
-
-      
+    this.registerOptionsChange();
+    const aiTerm = shadowRoot.querySelector('.ai-term');
+    aiTerm.addEventListener('click', (event) => {
+      event.stopPropagation();
+      document.querySelector('body').aiTermInputRef.value =
+        (this.prompt || null) === null ? this.textContent : this.prompt;
+      document.querySelector('body').aiTermChatWindowRef.setAiTermRect(aiTerm.getBoundingClientRect());
+      document.querySelector('body').aiTermButtonRef.click();
+    });
   }
 
-  registerOptionsChange = async ()=>{
+  registerOptionsChange = async () => {
     const body = document.querySelector('body');
-    while(body.aiTermRegisterOptionChange === undefined){
+    while (body.aiTermRegisterOptionChange === undefined) {
       await Sleep(100);
     }
     body.aiTermRegisterOptionChange(this.handleOptionsChange);
-  }
+  };
 
-  handleOptionsChange=(options)=>{
-    if((options?.highlight||null)!==null){
-      options.highlight.split(',').forEach(hl=> this.shadowRoot.querySelector('.ai-term-container').classList.add(hl));
+  handleOptionsChange = (options) => {
+    if ((options?.highlight || null) !== null) {
+      options.highlight
+        .split(',')
+        .forEach((hl) =>
+          this.shadowRoot.querySelector('.ai-term-container').classList.add(hl)
+        );
     }
-  }
+
+  };
 
   static get observedAttributes() {
-    return ["prompt"];
+    return ['prompt'];
   }
   attributeChangedCallback(name, oldValue, newValue) {
-    if(name==='prompt') this.prompt = newValue;
+    if (name === 'prompt') this.prompt = newValue;
   }
-
-
 }
-  
+
 async function Sleep(milliseconds) {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
