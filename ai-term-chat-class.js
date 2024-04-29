@@ -209,7 +209,7 @@ export default class AiTermChat extends HTMLElement {
 
           #ai-term-chat-window {
             bottom:-90dvh;
-            right:3dvw;
+            right:1dvw;
             display:flex;
           }
 
@@ -434,6 +434,12 @@ export default class AiTermChat extends HTMLElement {
           width:100%;
         }
 
+        #ai-term-chat-window form .textarea pre{
+          font-family: inherit;
+          font-size: inherit;
+          white-space: pre-wrap;
+      }
+
         #ai-term-chat-window form .textarea>div i{
           color:cornflowerblue;
         }
@@ -616,7 +622,7 @@ export default class AiTermChat extends HTMLElement {
           }),
         });
         const resp = (await response.json()).response;
-        responseDiv.innerHTML = `<span>${resp}</span>`;
+        responseDiv.innerHTML = `<pre>${resp}</pre>`;
 
         if(this.obscure) if(this.obscure) this._midify(chatW);;
       } catch (e) {
