@@ -20,8 +20,49 @@ if (typeof document !== 'undefined') {
   tpl2.innerHTML = `
   <div class="backdrop">
   </div>
-  <div id="ai-term-chat-window" draggable=true part="ai-term-chat">
+  <style>
+  .lds-dual-ring {
+    /* change color here */
+    color: white;
+    opacity:0;
+    transition:all 0.3s ease;
+  }
+
+  .lds-dual-ring.loading{
+    opacity:1;
+  }
+  .lds-dual-ring,
+  .lds-dual-ring:after {
+    box-sizing: border-box;
+  }
+  .lds-dual-ring {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border-radius: 50%;
+    border: 3.4px solid currentColor;
+    border-color: currentColor transparent currentColor transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  </style>
+  <div id="ai-term-chat-window" draggable=true part="ai-term-chat" class="mid-size">
   <div id="ai-term-chat-windowheader" class="title">
+  <div class="lds-dual-ring"></div>
   <span>AI Term</span>
   <div class="window-buttons"><span class="close">X</span></div>
   </div>

@@ -525,6 +525,7 @@ export default class AiTermChat extends HTMLElement {
       }
       if(this.obscure) this._minify(chatW);
       chatW.show();
+      chatW.querySelector('#ai-term-chat-windowheader .lds-dual-ring').classList.add('loading');
       // event.stopPropagation();
       event.preventDefault();
       let _apiKey = this.apiKey;
@@ -620,6 +621,8 @@ export default class AiTermChat extends HTMLElement {
         if(this.obscure) if(this.obscure) this._midify(chatW);;
       } catch (e) {
         if(!this.obscure) responseDiv.innerHTML = '<em>AI is overworked :-(</em>';
+      } finally{
+        chatW.querySelector('#ai-term-chat-windowheader .lds-dual-ring').classList.remove('loading');
       }
       input.value = '';
       textarea.scrollTop = textarea.scrollHeight;
