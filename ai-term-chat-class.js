@@ -425,6 +425,26 @@ export default class AiTermChat extends HTMLElement {
           background-color: white;
         }
 
+        #ai-term-chat-window form .textarea .response em {
+          /* font-variant: all-small-caps; */
+          font-style: normal;
+          padding-left: 1em;
+          position: relative;
+          display: block;
+          margin-bottom: 0.2em;
+      }
+
+      #ai-term-chat-window form .textarea .response em::before {
+          content: '';
+          width: 0.5em;
+          height: 0.5em;
+          position: absolute;
+          left: -0.5em;
+          background-color: white;
+          border-radius: 50%;
+          top: 0.5em;
+      }
+
         #ai-term-chat-window.max-size form .textarea{
           height:calc(80dvh - 2.5rem - 5dvh);
         }
