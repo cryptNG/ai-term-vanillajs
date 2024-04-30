@@ -440,7 +440,7 @@ export default class AiTermChat extends HTMLElement {
           height: 0.5em;
           position: absolute;
           left: -0.5em;
-          background-color: white;
+          background-color: black;
           border-radius: 50%;
           top: 0.5em;
       }
